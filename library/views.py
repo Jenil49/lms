@@ -18,6 +18,7 @@ from .models import Author, Book, BookReview, BorrowRequest, Genre
 from .serializers import (AuthorSerializer, BookCreateSerializer,
                           BookSerializer, BorrowSerializer, LoginSerializer,
                           RegisterSerializer, ReviewSerializer)
+from drf_spectacular.utils import extend_schema
 
 
 class RegisterView(generics.CreateAPIView):
@@ -39,7 +40,7 @@ class LoginView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@extend_schema(tags=["Books"])
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.select_related("author").prefetch_related("genres")
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -57,7 +58,7 @@ class BookViewSet(viewsets.ModelViewSet):
             return [IsAuthenticated(), IsLibrarian()]
         return [IsAuthenticated()]
 
-
+@extend_schema(tags=["Authors"])
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
@@ -68,7 +69,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
             return [IsLibrarian()]
         return []
 
-
+@extend_schema(tags=["Genres"])
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = AuthorSerializer
@@ -84,6 +85,7 @@ class BorrowThrottle(UserRateThrottle):
     scope = "borrow"
 
 
+@extend_schema(tags=["Borrow"])
 class BorrowViewSet(viewsets.ModelViewSet):
     queryset = BorrowRequest.objects.all()
     serializer_class = BorrowSerializer
@@ -158,11 +160,15 @@ class BorrowViewSet(viewsets.ModelViewSet):
         return Response({"msg": "Returned"})
 
 
+@extend_schema(tags=["Reviews"])
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return BookReview.objects.none()
+
         return BookReview.objects.filter(book_id=self.kwargs["book_id"])
 
     def perform_create(self, serializer):

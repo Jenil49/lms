@@ -1,596 +1,873 @@
 {
   "info": {
-    "_postman_id": "3beecde7-f469-4c89-b882-813c20157bc5",
-    "name": "Library Management System API",
-    "description": "LMS API with JWT, Borrow, Reviews, Swagger",
+    "_postman_id": "aa090c00-42f5-411f-a3f8-344f02c62313",
+    "name": "LMS Complete API Collection",
+    "description": "Complete Library Management System APIs",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "54398558",
-    "_collection_link": "https://go.postman.co/collection/54398558-3beecde7-f469-4c89-b882-813c20157bc5?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/54398558-aa090c00-42f5-411f-a3f8-344f02c62313?source=collection_link"
   },
   "item": [
     {
-      "name": "Auth - Register",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"Jenil\",\n  \"password\": \"jenil@2026\",\n  \"email\": \"jenilpatel499@gmail.com\",\n  \"role\": \"LIBRARIAN\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/register/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "register",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Auth - Login",
-      "event": [
+      "name": "Auth",
+      "item": [
         {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "// Parse response JSON\r",
-              "let response = pm.response.json();\r",
-              "\r",
-              "if (response.access) {\r",
-              "    pm.collectionVariables.set(\"token\", response.access);\r",
-              "}"
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"jenil\",\n  \"password\": \"123456\",\n  \"email\": \"jenil@gmail.com\",\n  \"role\": \"LIBRARIAN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/register/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "register",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Parse response JSON\r",
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "if (response.access) {\r",
+                  "    pm.collectionVariables.set(\"token\", response.access);\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"jenil\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/token/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "token",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
-            "type": "text/javascript",
-            "packages": {},
-            "requests": {}
-          }
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"Jenil\",\n  \"password\": \"jenil@2026\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/token/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "token",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Books - List",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{base_url}}/books/?author=",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "books",
-            ""
-          ],
-          "query": [
-            {
-              "key": "author",
-              "value": ""
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
             },
-            {
-              "key": "genres",
-              "value": null,
-              "type": "text",
-              "disabled": true
+            "url": {
+              "raw": "{{base_url}}/api/token/refresh/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "token",
+                "refresh",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authors",
+      "item": [
+        {
+          "name": "List Authors",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
             },
-            {
-              "key": "search",
-              "value": "Django",
-              "disabled": true
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/authors/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "authors",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Author",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
             },
-            {
-              "key": "ordering",
-              "value": null,
-              "type": "text",
-              "disabled": true
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Author 1\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/authors/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "authors",
+                ""
+              ]
             }
-          ]
+          },
+          "response": []
+        },
+        {
+          "name": "Get Author",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/authors/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "authors",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Author",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Updated Author\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/authors/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "authors",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Author",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/authors/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "authors",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Books - Create (Librarian)",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
+      "name": "Genres",
+      "item": [
+        {
+          "name": "List Genres",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/genres/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "genres",
+                ""
+              ]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"title\": \"Django Book\",\n  \"genres\": [1],\n  \"ISBN\": \"123456\",\n  \"available_copies\": 5,\n  \"total_copies\": 5,\n  \"author\": 1\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+        {
+          "name": "Create Genre",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Fiction\" }"
+            },
+            "url": {
+              "raw": "{{base_url}}/genres/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "genres",
+                ""
+              ]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "{{base_url}}/books/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "books",
-            ""
-          ]
+        {
+          "name": "Update Genre",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Updated Genre\" }"
+            },
+            "url": {
+              "raw": "{{base_url}}/genres/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "genres",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Genre",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/genres/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "genres",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Authors - List",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
+      "name": "Books",
+      "item": [
+        {
+          "name": "List Books",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/books/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "django",
+                  "disabled": true
+                },
+                {
+                  "key": "ordering",
+                  "value": "title",
+                  "disabled": true
+                }
+              ]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/authors/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "authors",
-            ""
-          ]
+        {
+          "name": "Create Book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Django Book\",\n  \"author\": 1,\n  \"genres\": [1],\n  \"ISBN\": \"123456\",\n  \"available_copies\": 5,\n  \"total_copies\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/books/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Book",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/books/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Book\",\n  \"author\": 1,\n  \"genres\": [1],\n  \"ISBN\": \"123456\",\n  \"available_copies\": 4,\n  \"total_copies\": 5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/books/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/books/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1",
+                ""
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Authors - Create",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
+      "name": "Borrow",
+      "item": [
+        {
+          "name": "Create Borrow",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"book\": 1 }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/borrow/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "borrow",
+                ""
+              ]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Author 1\",\n  \"bio\": \"\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+        {
+          "name": "List Borrow",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/borrow/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "borrow",
+                ""
+              ]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "{{base_url}}/authors/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "authors",
-            ""
-          ]
+        {
+          "name": "Approve Borrow",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/borrow/1/approve/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "borrow",
+                "1",
+                "approve",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Borrow",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/borrow/1/reject/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "borrow",
+                "1",
+                "reject",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Return Book",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/borrow/1/return_book/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "borrow",
+                "1",
+                "return_book",
+                ""
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Genres - List",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Get Reviews",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/books/1/reviews/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1",
+                "reviews",
+                ""
+              ]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/genres/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "genres",
-            ""
-          ]
+        {
+          "name": "Add Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rating\": 5,\r\n    \"comment\": \"Great book\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/books/1/reviews/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "books",
+                "1",
+                "reviews",
+                ""
+              ]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
-    },
-    {
-      "name": "Genres - Create",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Horror\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/genres/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "genres",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Borrow - Request Book",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"book\": 1\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/borrow/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "borrow",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Borrow - My Requests",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/borrow/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "borrow",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Borrow - Approve (Librarian)",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PATCH",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/borrow/7/approve/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "borrow",
-            "7",
-            "approve",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Borrow - Reject (Librarian)",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PATCH",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/borrow/1/reject/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "borrow",
-            "1",
-            "reject",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Borrow - Return",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PATCH",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/borrow/7/return_book/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "borrow",
-            "7",
-            "return_book",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Reviews - Add",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Great book!\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{base_url}}/books/1/reviews/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "books",
-            "1",
-            "reviews",
-            ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Reviews - List",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "{{base_url}}/books/1/reviews/",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "books",
-            "1",
-            "reviews",
-            ""
-          ]
-        }
-      },
-      "response": []
+      ]
     }
   ],
   "variable": [
